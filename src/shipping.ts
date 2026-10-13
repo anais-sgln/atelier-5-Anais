@@ -21,3 +21,10 @@ export class RetraitShipping implements ShippingStrategy {
     return 0;
   }
 }
+
+// pont entre le texte du mode et sa strategie
+export const shippingStrategies: Record<string, ShippingStrategy> = {
+  STANDARD: new StandardShipping(),
+  EXPRESS: new ExpressShipping(),
+  RETRAIT: new RetraitShipping(),
+};

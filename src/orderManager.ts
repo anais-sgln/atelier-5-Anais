@@ -1,6 +1,8 @@
 // Gestionnaire principal de l'application "VenteFlash"
 // NOTE : ce code fonctionne. C'est tout ce qu'on peut en dire.
 
+import { shippingStrategies } from "./shipping";
+
 export class OrderManager {
   // la "base de donnees" de l'application
   public orders: any[] = [];
@@ -43,12 +45,9 @@ export class OrderManager {
     // calcul de la TVA
     let ttc = total * 1.2;
     // frais de livraison selon le mode choisi
-    if (shipping == "STANDARD") {
-      ttc = ttc + 5.9;
-    } else if (shipping == "EXPRESS") {
-      ttc = ttc + 14.9;
-    } else if (shipping == "RETRAIT") {
-      // rien a ajouter
+    const strategy = shippingStrategies[shipping];
+    if (strategy) {
+      ttc = ttc + strategy.cost();
     }
     // enregistrement de la commande dans la base
     this.orders.push([name, type, ttc, shipping]);
